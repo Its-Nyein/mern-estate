@@ -15,7 +15,7 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search . . ."
-            className="bg-transparent text-[#38bdf8] focus:outline-none w-64 sm:w-25 placeholder-[#38bdf8] indent-2"
+            className="bg-transparent text-[#38bdf8] focus:outline-none w-22 sm:w-65 placeholder-[#38bdf8] indent-2"
           />
           <FaSearch className="bg-slate-60 text-[#38bdf8] cursor-pointer" />
         </form>
@@ -31,7 +31,7 @@ const Header = () => {
             </li>
           </Link>
           <Link to="sign-in">
-            <li className="bg-[#38bdf81a] sm:inline cursor-pointer px-4 py-3 rounded-lg">
+            <li className="sm:inline cursor-pointer hover:underline hover:text-[#38bdf8]">
               SignIn
             </li>
           </Link>
