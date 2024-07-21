@@ -10,6 +10,6 @@ export const authController = async (req, res, next) => {
         await newUser.save()
         res.status(201).json('New user is created!')
     } catch(error) {
-        next(errorHandler(550, 'Error from errorHandler'))
+        next(error)
     }
 }
