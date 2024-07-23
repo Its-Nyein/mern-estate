@@ -21,6 +21,7 @@ const Profile = () => {
   const [file, setFile] = useState(null);
   const [uploadPer, setUploadPer] = useState(0);
   const [uploadError, setUploadError] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -50,6 +51,8 @@ const Profile = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadedURL) => {
           //keep your uploaded img url
           setData({ ...data, avatar: downloadedURL });
+          setUploadError(false);
+          setUploadSuccess(true);
         });
       }
     );
@@ -82,7 +85,7 @@ const Profile = () => {
             </span>
           ) : uploadPer > 0 && uploadPer < 100 ? (
             <span className="text-violet-600">{`Image uploading ${uploadPer}%`}</span>
-          ) : uploadPer === 100 && !uploadError ? (
+          ) : uploadPer === 100 && uploadSuccess ? (
             <span className="text-green-600">Image upload successfully</span>
           ) : (
             ""
