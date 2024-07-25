@@ -2,6 +2,12 @@ import { useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFail,
+} from "../redux/user/userSlice.js";
+import { useDispatch } from "react-redux";
 
 //update storage rules firebase
 // service firebase.storage {
@@ -17,12 +23,14 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const Profile = () => {
   const fileRef = useRef(null);
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const [file, setFile] = useState(null);
   const [uploadPer, setUploadPer] = useState(0);
   const [uploadError, setUploadError] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [data, setData] = useState({});
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (file) {
@@ -58,12 +66,40 @@ const Profile = () => {
     );
   };
 
+  const handleOnUpdate = (e) => {
+    setData({ ...data, [e.target.id]: e.target.value });
+  };
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(updateUserStart());
+
+    try {
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      if (resData.success === false) {
+        dispatch(updateUserFail(resData.message));
+        return;
+      }
+      dispatch(updateUserSuccess(resData));
+      setUpdateSuccess(true);
+    } catch (error) {
+      dispatch(updateUserFail(error.message));
+    }
+  };
+
   return (
     <div className="p-3 items-center max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-6 text-white">
         Profile
       </h1>
-      <form className="flex flex-col gap-4">
+      <form onSubmit={handleOnSubmit} className="flex flex-col gap-4">
         <input
           type="file"
           id="image"
@@ -96,29 +132,38 @@ const Profile = () => {
           placeholder="Username"
           id="username"
           className="border p-3 rounded-lg focus:outline-none"
+          defaultValue={currentUser.username}
+          onChange={handleOnUpdate}
         />
         <input
           type="email"
           placeholder="Email"
           id="email"
           className="border p-3 rounded-lg focus:outline-none"
+          defaultValue={currentUser.email}
+          onChange={handleOnUpdate}
         />
         <input
           type="password"
           placeholder="Password"
           id="password"
           className="border p-3 rounded-lg focus:outline-none"
+          onChange={handleOnUpdate}
         />
         <button
-          type="button"
+          disabled={loading}
           className="bg-blue-700/70 p-3 uppercase rounded-lg text-white hover:opacity-90 disabled:opacity-75"
         >
-          Update
+          {loading ? "Loading..." : "Update"}
         </button>
       </form>
       <div className="flex justify-between cursor-pointer mt-5">
         <span className="text-red-600 font-semibold">Delete Account</span>
         <span className="text-red-600 font-semibold">Sign Out</span>
+      </div>
+      <div className="text-red-600 mt-5">{error ? error : ""}</div>
+      <div className="text-green-600 mt-5">
+        {updateSuccess ? "User Updated Successfully" : ""}
       </div>
     </div>
   );
