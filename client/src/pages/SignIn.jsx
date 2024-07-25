@@ -78,7 +78,7 @@ const SignIn = () => {
       </form>
       <div className="flex gap-4 mt-5 text-white text-center justify-center">
         <p>Don&apos;t Have an account?</p>
-        <Link to="/sign-up" className="hover:text-[#38bdf8]">
+        <Link to="/sign-up" className="text-[#38bdf8]">
           Sign Up
         </Link>
       </div>
