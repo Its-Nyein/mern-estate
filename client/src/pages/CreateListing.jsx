@@ -27,7 +27,9 @@ const CreateListing = () => {
           setUploadLoading(false);
         })
         .catch((err) => {
-          setImageUploadError("Image upload fail (2MB per image)");
+          setImageUploadError(
+            "Image upload fail (AllowType: Image and MaxSize: 2MB)"
+          );
           console.log(err);
           setUploadLoading(false);
         });
@@ -61,6 +63,14 @@ const CreateListing = () => {
       );
     });
   };
+
+  const handleOnDelete = (index) => {
+    setFormData({
+      ...formData,
+      imageURLs: formData.imageURLs.filter((_, idx) => idx != index),
+    });
+  };
+
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-6 text-white">
@@ -228,7 +238,11 @@ const CreateListing = () => {
                   alt="image"
                   className="w-40 h-36 object-cover rounded-lg"
                 />
-                <button className="text-red-600 p-3 font-semibold hover:opacity-90 uppercase">
+                <button
+                  type="button"
+                  onClick={() => handleOnDelete(index)}
+                  className="text-red-600 p-3 font-semibold hover:opacity-90 uppercase"
+                >
                   Delete
                 </button>
               </div>
