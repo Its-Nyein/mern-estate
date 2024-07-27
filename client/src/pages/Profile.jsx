@@ -14,6 +14,7 @@ import {
   signOutUserSuccess,
 } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 //update storage rules firebase
 // service firebase.storage {
@@ -194,6 +195,12 @@ const Profile = () => {
         >
           {loading ? "Loading..." : "Update"}
         </button>
+        <Link
+          to="/create-listing"
+          className="bg-green-700 text-center p-3 uppercase rounded-lg text-white hover:opacity-90 disabled:opacity-75"
+        >
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between cursor-pointer mt-5">
         <span onClick={handleDelete} className="text-red-600 font-semibold">
