@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
 const Listing = () => {
   const params = useParams();
@@ -42,7 +46,23 @@ const Listing = () => {
         </p>
       )}
       <div>
-        {listingData && !loading && !error && <p>{listingData.name}</p>}
+        {listingData && !loading && !error && (
+          <div>
+            <Swiper modules={[Navigation]} navigation={true}>
+              {listingData.imageURLs.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <div
+                    className="h-[550px]"
+                    style={{
+                      background: `url(${image}) center no-repeat`,
+                      backgroundSize: "cover",
+                    }}
+                  ></div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
       </div>
     </main>
   );
