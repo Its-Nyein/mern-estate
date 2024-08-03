@@ -10,13 +10,17 @@ import { FaBath } from "react-icons/fa";
 import { FaParking } from "react-icons/fa";
 import { FaChair } from "react-icons/fa";
 import { FaRegShareSquare } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import Contact from "../components/Contact";
 
 const Listing = () => {
   const params = useParams();
+  const { currentUser } = useSelector((state) => state.user);
   const [listingData, setListingData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [contact, setContact] = useState(false);
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -140,6 +144,16 @@ const Listing = () => {
                   {listingData.furnished ? "Furnished" : "Unfurnished"}
                 </li>
               </ul>
+              {(currentUser || currentUser._id !== listingData?.userRef) &&
+                !contact && (
+                  <button
+                    onClick={() => setContact(true)}
+                    className="bg-slate-700 text-white p-3 w-full uppercase text-center rounded-md hover:opacity-90 disabled:opacity-80 my-3"
+                  >
+                    Contact
+                  </button>
+                )}
+              {contact && <Contact listing={listingData} />}
             </div>
           </div>
         )}
