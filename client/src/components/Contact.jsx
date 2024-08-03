@@ -41,7 +41,7 @@ const Contact = ({ listing }) => {
         onChange={onChange}
       ></textarea>
       <Link
-        to={`mailto:${contactLandlord.email}?subbject=Regarding ${listing.name}&body=${message}`}
+        to={`mailto:${contactLandlord?.email}?subbject=Regarding ${listing.name}&body=${message}`}
         className="bg-slate-700 p-3 text-white rounded-md text-center uppercase hover:opacity-90 disabled:opacity-85"
       >
         Send Message
