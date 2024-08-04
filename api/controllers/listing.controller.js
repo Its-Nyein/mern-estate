@@ -46,9 +46,8 @@ export const updateListing = async (req, res, next) => {
 }
 
 export const getListing = async (req, res, next) => {
-    const listing = await Listing.findById(req.params.id)
-
     try {
+        const listing = await Listing.findById(req.params.id)
     if(!listing) return next(errorHandler(404, 'Listing not found!'))
         res.status(200).json(listing)
     } catch(error) {
@@ -95,7 +94,7 @@ export const getListings = async (req, res, next) => {
             type
         }).sort({[sort]: order}).limit(limit).skip(startIndex)
 
-        res.status(200).json(listings)
+        return res.status(200).json(listings)
     } catch(error) {
         console.log(error.message)
         next(error)
