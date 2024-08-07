@@ -15,17 +15,15 @@ const Header = () => {
     searchParams.set("searchTerm", searchTerm);
     const searchQuery = searchParams.toString();
     // searchParams(`/search/${searchQuery}`);
-    navigate(`search?${searchQuery}`);
+    navigate(`/search?${searchQuery}`);
   };
 
   useEffect(() => {
-    console.log(location.search);
     const searchParams = new URLSearchParams(location.search);
     const searchTermFromURL = searchParams.get("searchTerm");
     if (searchTermFromURL) {
       setSearchTerm(searchTermFromURL);
     }
-    console.log(searchTermFromURL);
   }, [location.search]);
 
   return (
