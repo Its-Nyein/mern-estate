@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingsCard from "../components/ListingsCard";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Search = () => {
   });
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
+  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -52,6 +54,9 @@ const Search = () => {
       setLoading(true);
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if (data.length > 5) {
+        setShowMore(true);
+      }
       setListings(data);
       setLoading(false);
     };
@@ -106,6 +111,20 @@ const Search = () => {
     urlParams.set("order", searchSidebar.order);
     const paramsQuery = urlParams.toString();
     navigate(`/search?${paramsQuery}`);
+  };
+
+  const handleShowMore = async () => {
+    const TotalListings = listings.length;
+    const startIndex = TotalListings;
+    const paramsURL = new URLSearchParams(location.search);
+    paramsURL.set("startIndex", startIndex);
+    const searchQuery = paramsURL.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 6) {
+      setShowMore(false);
+    }
+    setListings([...listings, ...data]);
   };
 
   return (
@@ -228,6 +247,17 @@ const Search = () => {
             listings.map((listing) => (
               <ListingsCard key={listing.id} listing={listing} />
             ))}
+        </div>
+        <div className="flex justify-center">
+          {showMore && (
+            <button
+              onClick={handleShowMore}
+              className="bg-[#07101b] p-3 rounded-md hover:scale-110 transition-scale duration-300 flex items-center"
+            >
+              Show More
+              <MdKeyboardDoubleArrowRight className="text-xl" />
+            </button>
+          )}
         </div>
       </div>
     </div>
