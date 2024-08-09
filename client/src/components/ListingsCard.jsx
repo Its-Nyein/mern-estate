@@ -44,7 +44,7 @@ const ListingsCard = ({ listing }) => {
 };
 
 ListingsCard.propTypes = {
-  listing: PropTypes.array.isRequired,
+  listing: PropTypes.object.isRequired,
 };
 
 export default ListingsCard;

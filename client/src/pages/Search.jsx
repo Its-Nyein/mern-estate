@@ -68,7 +68,7 @@ const Search = () => {
     if (
       e.target.id === "all" ||
       e.target.id === "rent" ||
-      e.target.id === "sale"
+      e.target.id === "sell"
     ) {
       setSearchSidebar({ ...searchSidebar, type: e.target.id });
     }
@@ -154,7 +154,7 @@ const Search = () => {
                 onChange={handleChange}
                 value={searchSidebar.type === "all"}
               />
-              <span>Rent&Sale</span>
+              <span>Rent&sell</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -170,13 +170,13 @@ const Search = () => {
             <div className="flex gap-2">
               <input
                 type="checkbox"
-                name="sale"
-                id="sale"
+                name="sell"
+                id="sell"
                 className="w-5"
                 onChange={handleChange}
-                value={searchSidebar.type === "sale"}
+                value={searchSidebar.type === "sell"}
               />
-              <span>Sale</span>
+              <span>sell</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -245,7 +245,7 @@ const Search = () => {
           {!loading &&
             listings &&
             listings.map((listing) => (
-              <ListingsCard key={listing.id} listing={listing} />
+              <ListingsCard key={listing._id} listing={listing} />
             ))}
         </div>
         <div className="flex justify-center">
