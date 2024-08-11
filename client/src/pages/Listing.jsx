@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -144,7 +144,7 @@ const Listing = () => {
                   {listingData.furnished ? "Furnished" : "Unfurnished"}
                 </li>
               </ul>
-              {(currentUser || currentUser._id !== listingData?.userRef) &&
+              {(currentUser || currentUser?._id !== listingData?.userRef) &&
                 !contact && (
                   <button
                     onClick={() => setContact(true)}
@@ -153,7 +153,20 @@ const Listing = () => {
                     Contact
                   </button>
                 )}
-              {contact && <Contact listing={listingData} />}
+              {contact && currentUser && <Contact listing={listingData} />}
+              {contact && !currentUser && (
+                <div className="my-4 flex flex-col gap-4">
+                  <p className="text-red-500">
+                    You must be sign in to contact the landlord.
+                  </p>
+                  <Link
+                    to="/sign-in"
+                    className="text-white p-3 bg-blue-600 uppercase rounded-md w-[200px] text-center"
+                  >
+                    SignIn
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}
