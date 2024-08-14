@@ -62,6 +62,7 @@ const Search = () => {
     };
 
     fetchListings();
+    setShowMore(false);
   }, [location.search]);
 
   const handleChange = (e) => {

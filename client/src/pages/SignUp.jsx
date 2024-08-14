@@ -54,6 +54,7 @@ const SignUp = () => {
           type="text"
           placeholder="Username"
           id="username"
+          required
           className="border p-3 rounded-lg focus:outline-none"
           onChange={handleChange}
         />
@@ -61,6 +62,7 @@ const SignUp = () => {
           type="email"
           placeholder="Email"
           id="email"
+          required
           className="border p-3 rounded-lg focus:outline-none"
           onChange={handleChange}
         />
@@ -68,6 +70,8 @@ const SignUp = () => {
           type="password"
           placeholder="Password"
           id="password"
+          required
+          minLength="8"
           className="border p-3 rounded-lg focus:outline-none"
           onChange={handleChange}
         />

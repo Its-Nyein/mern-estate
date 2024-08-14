@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -48,6 +48,16 @@ const SignIn = () => {
     }
   };
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        dispatch(SignInFail(null));
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error, dispatch]);
+
   return (
     <div className="p-3 items-center max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-6 text-white">
@@ -58,6 +68,7 @@ const SignIn = () => {
           type="email"
           placeholder="Email"
           id="email"
+          required
           className="border p-3 rounded-lg focus:outline-none"
           onChange={handleChange}
         />
@@ -65,6 +76,7 @@ const SignIn = () => {
           type="password"
           placeholder="Password"
           id="password"
+          required
           className="border p-3 rounded-lg focus:outline-none"
           onChange={handleChange}
         />
